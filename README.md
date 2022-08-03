@@ -2,7 +2,7 @@ This script implements example notify script in Perl which implements JSON inter
 
 NB! JSON based script uses different arguments from text based notify script. Please keep it in mind!
 
-You may check thios guide on our [site](https://fastnetmon.com/docs-fnm-advanced/fastnetmon-advanced-notify-script-in-perl/).
+You may check this guide on our [site](https://fastnetmon.com/docs-fnm-advanced/fastnetmon-advanced-notify-script-in-perl/).
 
 Please install JSON processing library for Perl:
 ```
