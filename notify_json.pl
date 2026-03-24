@@ -22,7 +22,6 @@ if ($@) {
     die "JSON decode failed\n";
 }
 
-print {$fl} "Received notification about $ip_address with action $action\n";
 print {$fl} Dumper($attack_details);
 
 # Action could be: ban, unban, attack_status for BGP Blackhole mode and partial_block, partial_unblock for BGP Flow Spec mode
