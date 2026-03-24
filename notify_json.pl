@@ -10,16 +10,6 @@ use Data::Dumper;
 # Write some debug to /tmp
 open my $fl, ">>", "/tmp/fastnetmon_notify_script.log" or die "Could not open file for writing";
 
-# This script executed from FastNetMon this way: ban 11.22.33.44
-
-if (scalar @ARGV != 2) {
-    print {$fl} "Please specify all arguments. Got only: @ARGV\n";
-    die "Please specify all arguments\n";
-}
-
-my ($action, $ip_address) = @ARGV;
-# action could be: ban, unban, partial_block
-
 # Read data from stdin
 my $input_attack_details = join '', <STDIN>;
 
@@ -34,6 +24,23 @@ if ($@) {
 
 print {$fl} "Received notification about $ip_address with action $action\n";
 print {$fl} Dumper($attack_details);
+
+# Action could be: ban, unban, attack_status for BGP Blackhole mode and partial_block, partial_unblock for BGP Flow Spec mode
+my $action = $attack_details->{"action"};
+
+my $scope = $attack_details->{"alert_scope"};
+
+if ($scope eq "" or $scope eq "host") {
+    my $ip_address = $attack_details->{"ip"};
+
+    print {$fl} "Callback action $action for host $ip_address\n";
+} elsif ($scope eq "hostgroup") {
+    my $hostgroup_name = $attack_details->{"hostgroup_name"};
+
+    print {$fl} "Callback action $action for hostgroup $hostgroup_name\n";
+} else {
+    print {$fl} "Unknown scope $scope\n";
+}   
 
 close $fl;
 
